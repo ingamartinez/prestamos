@@ -48,7 +48,7 @@
         <div class="sidebar-wrapper">
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                    PRESTAMOS APP
                 </a>
             </div>
 
@@ -80,7 +80,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-settings"></i>
-                                <p>Opciones</p>
+                                <p>{{auth()->user()->name}}</p>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">

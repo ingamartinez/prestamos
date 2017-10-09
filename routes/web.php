@@ -37,3 +37,5 @@ Route::middleware(['role:admin|super-admin','auth'])->group(function () {
     ]]);
 
 });
+
+Route::get('prestamos','PrestamoController@index');

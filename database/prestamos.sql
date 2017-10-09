@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost laragon
+Source Server         : Localhost Laragon
 Source Server Version : 50719
 Source Host           : localhost:3306
 Source Database       : prestamos
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-10-08 20:15:43
+Date: 2017-10-09 17:33:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -115,13 +115,14 @@ CREATE TABLE `roles` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of roles
 -- ----------------------------
 INSERT INTO `roles` VALUES ('1', 'Admin', 'admin', 'Custodians of the system.', 'default', '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
 INSERT INTO `roles` VALUES ('2', 'Estudiante', 'estudiante', 'Quienes pueden hacer los prestamos.', 'default', '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
+INSERT INTO `roles` VALUES ('3', 'Super Admin', 'super-admin', 'Root', 'default', '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
 
 -- ----------------------------
 -- Table structure for role_user
@@ -139,13 +140,14 @@ CREATE TABLE `role_user` (
   KEY `role_user_user_id_index` (`user_id`),
   CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of role_user
 -- ----------------------------
-INSERT INTO `role_user` VALUES ('1', '1', '1', '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
-INSERT INTO `role_user` VALUES ('2', '2', '2', '2017-10-08 23:40:47', '2017-10-08 23:40:47', null);
+INSERT INTO `role_user` VALUES ('4', '3', '1', '2017-10-09 21:01:16', '2017-10-09 21:01:16', null);
+INSERT INTO `role_user` VALUES ('14', '2', '2', '2017-10-09 21:51:55', '2017-10-09 21:51:55', null);
+INSERT INTO `role_user` VALUES ('15', '1', '3', '2017-10-09 22:15:25', '2017-10-09 22:15:25', null);
 
 -- ----------------------------
 -- Table structure for tipo_dispositivo
@@ -209,11 +211,12 @@ CREATE TABLE `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'Usuario Admin', 'admin@admin.com', '$2y$10$gDw5eWkkDuJYBrieHwM4LOZKRfJnUdK/q7rx6yFK463ItAS1ilSQS', null, '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
-INSERT INTO `users` VALUES ('2', 'Usuario Estudiante', 'est@est.com', '$2y$10$u.6PT7D7DN0c1.tFI5sveud0Humbizy8hA7KaKuGuyLCLAYG6h2vG', null, '2017-10-08 23:38:55', '2017-10-08 23:38:55', null);
+INSERT INTO `users` VALUES ('1', 'Usuario Admin', 'admin@admin.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', '6YdKUPKl5M3BZMsqCBbcTqA3qMPCunHzrlVPuw33uScoNzAVKVdVUbrBvARh', '2017-10-08 23:38:55', '2017-10-09 17:17:51', null);
+INSERT INTO `users` VALUES ('2', 'Usuario Estudiante', 'est@est.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', null, '2017-10-08 23:38:55', '2017-10-09 21:08:57', null);
+INSERT INTO `users` VALUES ('3', 'Alejandro Martinez', 'ing.amartinez94@gmail.com', '602bdc204140db016bee5374895e5568ce422fabe17e064061d80097', null, '2017-10-09 22:15:25', '2017-10-09 22:15:25', null);
 SET FOREIGN_KEY_CHECKS=1;

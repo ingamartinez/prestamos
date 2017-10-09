@@ -24,7 +24,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        $users = User::withTrashed()->where('id','!=',5)->get();
+        $users = User::withTrashed()->where('id','!=',1)->get();
         return view('admin.gestion_usuarios.index', compact('users'));
     }
 
