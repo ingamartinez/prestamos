@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,7 @@ return [
          */
         HttpOz\Roles\RolesServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Caffeinated\Flash\FlashServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Flash' => Caffeinated\Flash\Facades\Flash::class,
 
     ],
 

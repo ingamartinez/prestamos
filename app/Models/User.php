@@ -6,10 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use HttpOz\Roles\Traits\HasRole;
 use HttpOz\Roles\Contracts\HasRole as HasRoleContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements HasRoleContract
 {
-    use Notifiable, HasRole;
+    use Notifiable, HasRole, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -28,4 +29,6 @@ class User extends Authenticatable implements HasRoleContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $dates = ['deleted_at'];
 }

@@ -1,18 +1,18 @@
 <ul class="nav">
-    <li class="active">
-        <a href="dashboard.html">
+    <li>
+        <a href="{{url('/')}}">
             <i class="ti-panel"></i>
             <p>Dashboard</p>
         </a>
     </li>
     <li>
-        <a href="user.html">
+        <a href="{{url('gestion-usuarios')}}">
             <i class="ti-user"></i>
-            <p>User Profile</p>
+            <p>Gestión Usuarios</p>
         </a>
     </li>
     <li>
-        <a href="table.html">
+        <a href="{{url('prestamos')}}">
             <i class="ti-view-list-alt"></i>
             <p>Table List</p>
         </a>

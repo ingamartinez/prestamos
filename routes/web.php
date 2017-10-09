@@ -15,13 +15,25 @@ Route::get('/', function () {
     return view('layouts.dashboard');
 });
 
+Route::get('logout','LoginController@logout');
 
-Route::get('create', function () {
+Route::resource('login','LoginController');
 
-    $estudianteRole = \HttpOz\Roles\Models\Role::findBySlug('estudiante');
-
-    $estudiante = App\Models\User::findOrFail(2);
-
-    $estudiante->attachRole($estudianteRole);
+Route::middleware(['role:admin|super-admin|estudiante','auth'])->group(function () {
+    Route::get('/', function () {
+        return view('layouts.dashboard');
+    });
 });
 
+Route::middleware(['role:admin|super-admin','auth'])->group(function () {
+
+    Route::post('validar-usuario','UserController@validar')->name('usuario.validar');
+    Route::post('restaurar-usuario/{id}','UserController@restore')->name('usuario.restore');
+    Route::resource('gestion-usuarios','UserController',['names'=>[
+        'store' => 'usuario.store',
+        'show' => 'usuario.show',
+        'update' => 'usuario.update',
+        'delete' => 'usuario.delete'
+    ]]);
+
+});
