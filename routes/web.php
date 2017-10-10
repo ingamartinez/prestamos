@@ -37,5 +37,5 @@ Route::middleware(['role:admin|super-admin','auth'])->group(function () {
     ]]);
 
 });
-
-Route::get('prestamos','PrestamoController@index');
+Route::post('realizar-prestamo','PrestamoController@realizar_prestamo')->name('prestamo.realizar');
+Route::resource('prestamos','PrestamoController');

@@ -21,6 +21,7 @@
 
     <!--  Paper Dashboard core CSS    -->
     <link href="{{asset('assets/css/paper-dashboard.css')}}" rel="stylesheet"/>
+    <link href="{{asset('assets/css/selectize.css')}}" rel="stylesheet"/>
 
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
@@ -166,6 +167,10 @@
 <script src="{{asset('assets/js/sha3.min.js')}}"></script>
 
 <script src="{{asset('assets/js/validator.js')}}"></script>
+
+<script src="{{asset('assets/js/jquery.formdata.js')}}"></script>
+
+<script src="{{asset('assets/js/selectize.js')}}"></script>
 
 @stack('script')
 

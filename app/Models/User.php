@@ -31,4 +31,9 @@ class User extends Authenticatable implements HasRoleContract
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function prestamos()
+    {
+        return $this->hasMany('App\Models\Prestamo','users_id');
+    }
 }

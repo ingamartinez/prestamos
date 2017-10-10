@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('titulo', 'Gestión de usuarios')
+@section('titulo', 'Gestión Prestamos')
 
 @section('content')
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="header">
-                    <button class="btn btn-primary waves-effect waves-light btn-lg m-b-5" data-toggle="modal" data-target="#modal_agregar_usuario">Agregar Usuario</button>
+                    <a class="btn btn-primary waves-effect waves-light btn-lg m-b-5" href="{{route('prestamos.create')}}">Agregar Prestamo</a>
                 </div>
                 <div class="content">
                     @if ($errors->any())
@@ -25,9 +25,9 @@
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Roles</th>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Tipo de Prestamo</th>
                             <th>Fecha Creado</th>
                             <th>Fecha de Ultima Mod</th>
                             <th>Opciones</th>
@@ -35,7 +35,22 @@
                         </thead>
 
                         <tbody>
+                            @foreach($prestamos as $prestamo)
+                                <tr data-id="{{$prestamo->id}}" class="{{($prestamo->trashed() ? 'danger': false)}}">
+                                    <td>{{$prestamo->id}}</td>
+                                    <td>{{$prestamo->user->name}}</td>
+                                    <td>{{$prestamo->tipo_prestamo->nombre}}</td>
+                                    <td>{{$prestamo->updated_at}}</td>
+                                    <td>{{$prestamo->created_at}}</td>
 
+                                    <td>
+                                        <a href="#" class="detalle" style="color: #252422"><i class="fa fa-align-justify fa-lg" style="color: #2c61c4"></i> Detalle </a>
+                                        @if(!$prestamo->trashed())
+                                            <a href="#" class="finalizar" style="color: #252422"><i class="fa fa-check fa-lg" style="color: #10c469"></i> Finalizar</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -45,8 +60,7 @@
 @endsection
 
 @section('modals')
-    @include('admin.gestion_usuarios.includes.modal_agregar_usuario')
-    @include('admin.gestion_usuarios.includes.modal_editar_usuario')
+
 @endsection
 
 @push('script')

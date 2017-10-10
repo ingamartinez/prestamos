@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dispositivo;
+use App\Models\DispositivosPrestados;
+use App\Models\Prestamo;
+use App\Models\TipoPrestamo;
+use App\Models\User;
+use HttpOz\Roles\Models\Role;
 use Illuminate\Http\Request;
+use Caffeinated\Flash\Facades\Flash;
 
 class PrestamoController extends Controller
 {
@@ -13,7 +20,9 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        return view('admin.prestamos.index');
+        $prestamos = Prestamo::withTrashed()->get();
+
+        return view('admin.prestamos.index',compact('prestamos'));
     }
 
     /**
@@ -23,7 +32,33 @@ class PrestamoController extends Controller
      */
     public function create()
     {
-        //
+        $estudiantes = Role::findBySlug('estudiante')->users;
+        $dispositivos = Dispositivo::all();
+        $tipo_prestamos = TipoPrestamo::all();
+
+        return view('admin.prestamos.create.index',compact('estudiantes','dispositivos','tipo_prestamos'));
+    }
+
+    public function realizar_prestamo(Request $request)
+    {
+        $datos= collect(json_decode($request->dispositivos[0],true));
+
+        $prestamo = new Prestamo();
+        $prestamo->users_id = $request->id_usuario;
+        $prestamo->tipo_prestamo_id = $request->id_tipo_prestamo;
+        $prestamo->save();
+
+        foreach ($datos as $dato){
+            $dispositivoPrestado = new DispositivosPrestados();
+            $dispositivoPrestado->prestamos_id = $prestamo->id;
+            $dispositivoPrestado->dispositivos_id = $dato['id'];
+            $dispositivoPrestado->cantidad = $dato['cantidad'];
+
+            $dispositivoPrestado->save();
+        }
+        Flash::success('Prestamo realizado correctamente');
+
+        return response()->json(['message'=>'Prestamo realizado correctamente'],200);
     }
 
     /**

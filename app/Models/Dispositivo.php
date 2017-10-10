@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dispositivo extends Model
 {
-    protected $table = 'dispositivo';
+    protected $table = 'dispositivos';
 
-    public function dispositivos()
+    public function tipo_dispositivo()
     {
-        return $this->hasOne('App\Models\TipoPrestamo','tipo_dispositivo_id');
+        return $this->belongsTo('App\Models\TipoDispositivo','tipo_dispositivo_id');
     }
 }
