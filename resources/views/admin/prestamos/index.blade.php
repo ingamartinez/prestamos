@@ -29,19 +29,19 @@
                             <th>Usuario</th>
                             <th>Tipo de Prestamo</th>
                             <th>Fecha Creado</th>
-                            <th>Fecha de Ultima Mod</th>
+                            <th>Fecha de Finalizado</th>
                             <th>Opciones</th>
                         </tr>
                         </thead>
 
                         <tbody>
                             @foreach($prestamos as $prestamo)
-                                <tr data-id="{{$prestamo->id}}" class="{{($prestamo->trashed() ? 'danger': false)}}">
+                                <tr data-id="{{$prestamo->id}}" class="{{($prestamo->trashed() ? 'success': false)}}">
                                     <td>{{$prestamo->id}}</td>
                                     <td>{{$prestamo->user->name}}</td>
                                     <td>{{$prestamo->tipo_prestamo->nombre}}</td>
-                                    <td>{{$prestamo->updated_at}}</td>
                                     <td>{{$prestamo->created_at}}</td>
+                                    <td>{{$prestamo->deleted_at}}</td>
 
                                     <td>
                                         <a href="#" class="detalle" style="color: #252422"><i class="fa fa-align-justify fa-lg" style="color: #2c61c4"></i> Detalle </a>
@@ -72,5 +72,51 @@
                 }
             });
         });
+
+        $('.finalizar').on('click', function (e) {
+            e.preventDefault();
+
+            var fila = $(this).parents('tr');
+            var id = fila.data('id');
+
+            swal({
+                title: 'Finalizar Prestamo',
+                text: "¿Estas seguro de finalizar este prestamo?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1ccc51',
+                confirmButtonText: 'Si'
+            }).then(function () {
+                $.ajax({
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '{{url('prestamos')}}/' + id,
+                    success: function (data) {
+                        swal({
+                            title: 'Finalizado!',
+                            text: "El prestamo ha sido finalizado.",
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then(function () {
+                            location.reload();
+                        });
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR.responseText);
+                        swal(
+                            'Ha ocurrido un error',
+                            jqXHR.responseText,
+                            'error'
+                        );
+
+                    }
+                });
+            });
+        });
+
     </script>
 @endpush

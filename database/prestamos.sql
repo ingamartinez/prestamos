@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-10-09 17:33:07
+Date: 2017-10-11 16:57:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `dispositivos`;
 CREATE TABLE `dispositivos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `tipo_dispositivo_id` int(11) NOT NULL,
@@ -30,13 +30,38 @@ CREATE TABLE `dispositivos` (
   PRIMARY KEY (`id`),
   KEY `fk_dispositivos_tipo_dispositivo1_idx` (`tipo_dispositivo_id`),
   CONSTRAINT `fk_dispositivos_tipo_dispositivo1` FOREIGN KEY (`tipo_dispositivo_id`) REFERENCES `tipo_dispositivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of dispositivos
 -- ----------------------------
-INSERT INTO `dispositivos` VALUES ('2', '3', 'Protoboard', '1', '2017-10-08 18:24:39', '2017-10-08 18:24:39', null);
-INSERT INTO `dispositivos` VALUES ('3', '20', 'Resistencia 330', '4', '2017-10-08 18:24:39', '2017-10-08 18:24:39', null);
+INSERT INTO `dispositivos` VALUES ('2', '21', 'Protoboard', '1', '2017-10-08 18:24:39', '2017-10-11 21:50:47', null);
+INSERT INTO `dispositivos` VALUES ('3', '21', 'Resistencia 330', '4', '2017-10-08 18:24:39', '2017-10-11 21:50:47', null);
+
+-- ----------------------------
+-- Table structure for dispositivos_prestados
+-- ----------------------------
+DROP TABLE IF EXISTS `dispositivos_prestados`;
+CREATE TABLE `dispositivos_prestados` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `dispositivos_id` int(10) NOT NULL,
+  `prestamos_id` int(10) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_dispositivos_prestados_dispositivos1_idx` (`dispositivos_id`),
+  KEY `fk_dispositivos_prestados_prestamos1_idx` (`prestamos_id`),
+  CONSTRAINT `fk_dispositivos_prestados_dispositivos1` FOREIGN KEY (`dispositivos_id`) REFERENCES `dispositivos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_dispositivos_prestados_prestamos1` FOREIGN KEY (`prestamos_id`) REFERENCES `prestamos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of dispositivos_prestados
+-- ----------------------------
+INSERT INTO `dispositivos_prestados` VALUES ('18', '2', '10', '3', '2017-10-11 21:33:22', '2017-10-11 21:33:22', null);
+INSERT INTO `dispositivos_prestados` VALUES ('19', '3', '10', '3', '2017-10-11 21:33:22', '2017-10-11 21:33:22', null);
 
 -- ----------------------------
 -- Table structure for migrations
@@ -77,28 +102,23 @@ CREATE TABLE `password_resets` (
 -- ----------------------------
 DROP TABLE IF EXISTS `prestamos`;
 CREATE TABLE `prestamos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cantidad` int(11) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `users_id` int(10) unsigned NOT NULL,
-  `dispositivos_id` int(11) NOT NULL,
-  `tipo_prestamo_id` int(11) NOT NULL,
+  `tipo_prestamo_id` int(10) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_prestamos_users1_idx` (`users_id`),
-  KEY `fk_prestamos_dispositivos1_idx` (`dispositivos_id`),
   KEY `fk_prestamos_tipo_prestamo1_idx` (`tipo_prestamo_id`),
-  CONSTRAINT `fk_prestamos_dispositivos1` FOREIGN KEY (`dispositivos_id`) REFERENCES `dispositivos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_prestamos_tipo_prestamo1` FOREIGN KEY (`tipo_prestamo_id`) REFERENCES `tipo_prestamo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_prestamos_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of prestamos
 -- ----------------------------
-INSERT INTO `prestamos` VALUES ('1', '2', '2', '3', '2', '2017-10-08 18:41:32', '2017-10-08 18:41:32', null);
-INSERT INTO `prestamos` VALUES ('2', '1', '2', '2', '4', '2017-10-08 18:45:32', '2017-10-08 18:45:32', null);
+INSERT INTO `prestamos` VALUES ('10', '2', '3', '2017-10-11 21:33:22', '2017-10-11 21:50:47', '2017-10-11 21:50:47');
 
 -- ----------------------------
 -- Table structure for roles
@@ -129,7 +149,7 @@ INSERT INTO `roles` VALUES ('3', 'Super Admin', 'super-admin', 'Root', 'default'
 -- ----------------------------
 DROP TABLE IF EXISTS `role_user`;
 CREATE TABLE `role_user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -140,7 +160,7 @@ CREATE TABLE `role_user` (
   KEY `role_user_user_id_index` (`user_id`),
   CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of role_user
@@ -154,14 +174,14 @@ INSERT INTO `role_user` VALUES ('15', '1', '3', '2017-10-09 22:15:25', '2017-10-
 -- ----------------------------
 DROP TABLE IF EXISTS `tipo_dispositivo`;
 CREATE TABLE `tipo_dispositivo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tipo_dispositivo
@@ -179,14 +199,14 @@ INSERT INTO `tipo_dispositivo` VALUES ('7', 'Protoboard', null, '2017-10-08 18:0
 -- ----------------------------
 DROP TABLE IF EXISTS `tipo_prestamo`;
 CREATE TABLE `tipo_prestamo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tipo_prestamo

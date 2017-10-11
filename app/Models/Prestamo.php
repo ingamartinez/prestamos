@@ -25,9 +25,6 @@ class Prestamo extends Model
 
     public function dispositivos()
     {
-        return $this->belongsToMany('App\Models\Dispositivo', 'dispositivos_prestados', 'prestamos_id', 'dispositivos_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\Dispositivo', 'dispositivos_prestados', 'prestamos_id', 'dispositivos_id')->withPivot('cantidad');
     }
-
-
-
 }

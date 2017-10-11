@@ -38,4 +38,9 @@ Route::middleware(['role:admin|super-admin','auth'])->group(function () {
 
 });
 Route::post('realizar-prestamo','PrestamoController@realizar_prestamo')->name('prestamo.realizar');
-Route::resource('prestamos','PrestamoController');
+Route::resource('prestamos','PrestamoController',['names'=>[
+    'store' => 'prestamos.store',
+    'show' => 'prestamos.show',
+    'update' => 'prestamos.update',
+    'delete' => 'prestamos.delete'
+]]);

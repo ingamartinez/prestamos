@@ -8,8 +8,10 @@ use App\Models\Prestamo;
 use App\Models\TipoPrestamo;
 use App\Models\User;
 use HttpOz\Roles\Models\Role;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Caffeinated\Flash\Facades\Flash;
+use Illuminate\Support\Facades\DB;
 
 class PrestamoController extends Controller
 {
@@ -54,6 +56,10 @@ class PrestamoController extends Controller
             $dispositivoPrestado->dispositivos_id = $dato['id'];
             $dispositivoPrestado->cantidad = $dato['cantidad'];
 
+            $dispositivo = Dispositivo::findOrFail($dato['id']);
+            $dispositivo->cantidad = (int) $dispositivo->cantidad - (int) $dato['cantidad'];
+
+            $dispositivo->save();
             $dispositivoPrestado->save();
         }
         Flash::success('Prestamo realizado correctamente');
@@ -114,6 +120,40 @@ class PrestamoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            //throw new \Exception('No se pudo crear el usuario');
+
+//            Prestamo::findOrFail($id)->withTrashed()->delete();
+            $prestamo = Prestamo::findOrFail($id);
+            $prestamo->delete();
+
+            $this->regresarArticulos($prestamo);
+
+            DB::commit();
+
+            Flash::success('Prestamo finalizado correctamente');
+
+            return response()->json('Prestamo finalizado correctamente',200);
+
+        }catch (\Exception $ex){
+            DB::rollBack();
+
+            //Flash::error('Error al editar - '.$ex->getMessage());
+
+            return response()->json('No se puede finalizar el prestamo - '.$ex->getMessage(),404);
+        };
+    }
+
+
+    private function regresarArticulos($prestamo) : void {
+        $articulos = $prestamo->dispositivos;
+
+        foreach ($articulos as $articulo){
+            $articulo->cantidad = (int) $articulo->cantidad + (int) $articulo->pivot->cantidad;
+
+            $articulo->save();
+        }
     }
 }
