@@ -38,6 +38,7 @@ Route::middleware(['role:admin|super-admin','auth'])->group(function () {
 
 });
 Route::post('realizar-prestamo','PrestamoController@realizar_prestamo')->name('prestamo.realizar');
+Route::get('detalle-prestamo/{id}','PrestamoController@detallePrestamo')->name('prestamo.detalle');
 Route::resource('prestamos','PrestamoController',['names'=>[
     'store' => 'prestamos.store',
     'show' => 'prestamos.show',

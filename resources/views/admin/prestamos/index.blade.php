@@ -118,5 +118,46 @@
             });
         });
 
+        $('.detalle').on('click', function (e) {
+            e.preventDefault();
+
+            var fila = $(this).parents('tr');
+            var id = fila.data('id');
+
+            $.ajax({
+                type: 'GET',
+                url: '{{url('detalle-prestamo')}}/' + id,
+                success: function (data) {
+                    var html="";
+
+                    _.each(data, function (dispositivo) {
+
+                        html=html+
+                            '<div style="text-align: justify"><br><b>Dispositivo: </b>'+dispositivo.nombre + '<br>'+
+                            '<b>Cantidad: </b>'+dispositivo.pivot.cantidad+'<br></div>'
+                    });
+
+                    swal({
+                        title: 'Detalle del Prestamo',
+                        html:html,
+                        showCloseButton: true,
+                        focusConfirm: true,
+                        confirmButtonText:
+                            '<i class="fa fa-thumbs-up"></i> Ok!',
+                        confirmButtonAriaLabel: 'Thumbs up, great!'
+                    })
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    swal(
+                        'Ha ocurrido un error',
+                        jqXHR.responseText,
+                        'error'
+                    );
+
+                }
+            });
+        });
+
     </script>
 @endpush

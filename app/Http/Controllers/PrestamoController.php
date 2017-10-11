@@ -156,4 +156,10 @@ class PrestamoController extends Controller
             $articulo->save();
         }
     }
+
+    public function detallePrestamo($id) {
+        $articulos = Prestamo::withTrashed()->findOrFail($id);
+
+        return response()->json($articulos->dispositivos);
+    }
 }
