@@ -6,15 +6,15 @@
         </a>
     </li>
     <li>
-        <a href="{{url('gestion-dispositivos')}}">
-            <i class="ti-signal"></i>
-            <p>Gestión Dispositivos</p>
-        </a>
-    </li>
-    <li>
         <a href="{{url('gestion-usuarios')}}">
             <i class="ti-user"></i>
             <p>Gestión Usuarios</p>
+        </a>
+    </li>
+    <li>
+        <a href="{{url('gestion-dispositivos')}}">
+            <i class="ti-signal"></i>
+            <p>Gestión Dispositivos</p>
         </a>
     </li>
     <li>

@@ -54,9 +54,9 @@
                                     </label>
                                 </div>
                                 <div class="radio radio-info">
-                                    <input type="radio" name="radio_rol" id="radio_usuario" value="user" data-remote="{{route('usuario.validar')}}" data-remote-method="POST" required>
+                                    <input type="radio" name="radio_rol" id="radio_usuario" value="estudiante" data-remote="{{route('usuario.validar')}}" data-remote-method="POST" required>
                                     <label for="radio_usuario">
-                                        Usuario Normal
+                                        Usuario Estudiante
                                     </label>
                                 </div>
                                 <div class="help-block with-errors"></div>

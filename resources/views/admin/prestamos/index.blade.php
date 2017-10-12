@@ -67,6 +67,7 @@
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
+                "order": ( [[ 4, 'asc' ], [ 0, 'asc' ] ]),
                 "language": {
                     "url": "{{asset('assets/js/Spanish.json')}}"
                 }

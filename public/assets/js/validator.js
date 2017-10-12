@@ -308,7 +308,7 @@
         if (this.isIncomplete() || this.hasErrors()) {
             e.preventDefault()
         } else {
-            $('#password').val(sha3_224($('#password').val()));
+            $('#password').val(sha3_256($('#password').val()));
         }
     }
 

@@ -58,7 +58,7 @@
             @endrole
 
             @role('estudiante|super-admin')
-                @include('menu.admin')
+                {{--@include('menu.admin')--}}
             @endrole
 
         </div>
@@ -85,7 +85,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Cerrar Sesión</a></li>
+                                <li><a href="{{url('logout')}}">Cerrar Sesión</a></li>
                             </ul>
                         </li>
                     </ul>
