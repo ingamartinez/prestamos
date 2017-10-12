@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-10-11 16:57:16
+Date: 2017-10-12 14:55:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `dispositivos`;
 CREATE TABLE `dispositivos` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `cantidad` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `tipo_dispositivo_id` int(11) NOT NULL,
@@ -30,13 +30,14 @@ CREATE TABLE `dispositivos` (
   PRIMARY KEY (`id`),
   KEY `fk_dispositivos_tipo_dispositivo1_idx` (`tipo_dispositivo_id`),
   CONSTRAINT `fk_dispositivos_tipo_dispositivo1` FOREIGN KEY (`tipo_dispositivo_id`) REFERENCES `tipo_dispositivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of dispositivos
 -- ----------------------------
-INSERT INTO `dispositivos` VALUES ('2', '21', 'Protoboard', '1', '2017-10-08 18:24:39', '2017-10-11 21:50:47', null);
-INSERT INTO `dispositivos` VALUES ('3', '21', 'Resistencia 330', '4', '2017-10-08 18:24:39', '2017-10-11 21:50:47', null);
+INSERT INTO `dispositivos` VALUES ('2', '19', 'Protoboard', '1', '2017-10-08 18:24:39', '2017-10-11 22:00:46', null);
+INSERT INTO `dispositivos` VALUES ('3', '19', 'Resistencia 330', '4', '2017-10-08 18:24:39', '2017-10-11 22:00:47', null);
+INSERT INTO `dispositivos` VALUES ('4', '5', 'WiFi Arduino', '1', '2017-10-12 18:59:02', '2017-10-12 19:29:02', null);
 
 -- ----------------------------
 -- Table structure for dispositivos_prestados
@@ -55,13 +56,16 @@ CREATE TABLE `dispositivos_prestados` (
   KEY `fk_dispositivos_prestados_prestamos1_idx` (`prestamos_id`),
   CONSTRAINT `fk_dispositivos_prestados_dispositivos1` FOREIGN KEY (`dispositivos_id`) REFERENCES `dispositivos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_dispositivos_prestados_prestamos1` FOREIGN KEY (`prestamos_id`) REFERENCES `prestamos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of dispositivos_prestados
 -- ----------------------------
 INSERT INTO `dispositivos_prestados` VALUES ('18', '2', '10', '3', '2017-10-11 21:33:22', '2017-10-11 21:33:22', null);
 INSERT INTO `dispositivos_prestados` VALUES ('19', '3', '10', '3', '2017-10-11 21:33:22', '2017-10-11 21:33:22', null);
+INSERT INTO `dispositivos_prestados` VALUES ('20', '2', '11', '2', '2017-10-11 22:00:46', '2017-10-11 22:00:46', null);
+INSERT INTO `dispositivos_prestados` VALUES ('21', '3', '11', '2', '2017-10-11 22:00:47', '2017-10-11 22:00:47', null);
+INSERT INTO `dispositivos_prestados` VALUES ('22', '4', '12', '1', '2017-10-12 19:27:37', '2017-10-12 19:27:37', null);
 
 -- ----------------------------
 -- Table structure for migrations
@@ -113,12 +117,14 @@ CREATE TABLE `prestamos` (
   KEY `fk_prestamos_tipo_prestamo1_idx` (`tipo_prestamo_id`),
   CONSTRAINT `fk_prestamos_tipo_prestamo1` FOREIGN KEY (`tipo_prestamo_id`) REFERENCES `tipo_prestamo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_prestamos_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of prestamos
 -- ----------------------------
 INSERT INTO `prestamos` VALUES ('10', '2', '3', '2017-10-11 21:33:22', '2017-10-11 21:50:47', '2017-10-11 21:50:47');
+INSERT INTO `prestamos` VALUES ('11', '2', '3', '2017-10-11 22:00:46', '2017-10-11 22:00:46', null);
+INSERT INTO `prestamos` VALUES ('12', '3', '3', '2017-10-12 19:27:37', '2017-10-12 19:29:02', '2017-10-12 19:29:02');
 
 -- ----------------------------
 -- Table structure for roles
@@ -149,7 +155,7 @@ INSERT INTO `roles` VALUES ('3', 'Super Admin', 'super-admin', 'Root', 'default'
 -- ----------------------------
 DROP TABLE IF EXISTS `role_user`;
 CREATE TABLE `role_user` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -160,28 +166,28 @@ CREATE TABLE `role_user` (
   KEY `role_user_user_id_index` (`user_id`),
   CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of role_user
 -- ----------------------------
 INSERT INTO `role_user` VALUES ('4', '3', '1', '2017-10-09 21:01:16', '2017-10-09 21:01:16', null);
 INSERT INTO `role_user` VALUES ('14', '2', '2', '2017-10-09 21:51:55', '2017-10-09 21:51:55', null);
-INSERT INTO `role_user` VALUES ('15', '1', '3', '2017-10-09 22:15:25', '2017-10-09 22:15:25', null);
+INSERT INTO `role_user` VALUES ('16', '2', '3', '2017-10-12 19:27:21', '2017-10-12 19:27:21', null);
 
 -- ----------------------------
 -- Table structure for tipo_dispositivo
 -- ----------------------------
 DROP TABLE IF EXISTS `tipo_dispositivo`;
 CREATE TABLE `tipo_dispositivo` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tipo_dispositivo
@@ -199,14 +205,14 @@ INSERT INTO `tipo_dispositivo` VALUES ('7', 'Protoboard', null, '2017-10-08 18:0
 -- ----------------------------
 DROP TABLE IF EXISTS `tipo_prestamo`;
 CREATE TABLE `tipo_prestamo` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tipo_prestamo
@@ -231,12 +237,12 @@ CREATE TABLE `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'Usuario Admin', 'admin@admin.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', '6YdKUPKl5M3BZMsqCBbcTqA3qMPCunHzrlVPuw33uScoNzAVKVdVUbrBvARh', '2017-10-08 23:38:55', '2017-10-09 17:17:51', null);
-INSERT INTO `users` VALUES ('2', 'Usuario Estudiante', 'est@est.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', null, '2017-10-08 23:38:55', '2017-10-09 21:08:57', null);
-INSERT INTO `users` VALUES ('3', 'Alejandro Martinez', 'ing.amartinez94@gmail.com', '602bdc204140db016bee5374895e5568ce422fabe17e064061d80097', null, '2017-10-09 22:15:25', '2017-10-09 22:15:25', null);
+INSERT INTO `users` VALUES ('1', 'Super Admin', 'admin@admin.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', 'RSr1pcNcCIJyv9tDf1x88EXhxHSWH1SgHymdN4Avud1vQ40CwwHEkywdWjPx', '2017-10-08 23:38:55', '2017-10-09 17:17:51', null);
+INSERT INTO `users` VALUES ('2', 'Jose Torres', 'jose@gmail.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', null, '2017-10-08 23:38:55', '2017-10-12 19:28:28', null);
+INSERT INTO `users` VALUES ('3', 'Alejandro Martinez', 'ing.amartinez94@gmail.com', 'a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67', null, '2017-10-09 22:15:25', '2017-10-09 22:15:25', null);
 SET FOREIGN_KEY_CHECKS=1;
